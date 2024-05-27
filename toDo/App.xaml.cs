@@ -1,30 +1,18 @@
 ﻿using System;
-using Xamarin.Forms;
-using System.IO;
 using toDo.Services;
+using toDo.Views;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace toDo
 {
     public partial class App : Application
     {
-        static TareaDatabase database;
-
-        public static TareaDatabase Database
-        {
-            get
-            {
-                if (database == null)
-                {
-                    database = new TareaDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Tareas.db3"));
-                }
-                return database;
-            }
-        }
 
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

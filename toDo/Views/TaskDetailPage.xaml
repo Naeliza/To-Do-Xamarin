@@ -1,0 +1,9 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="toDo.Views.TaskDetailPage">
+    <StackLayout>
+        <Entry x:Name="nameEntry" Placeholder="Nombre de la tarea" />
+        <Entry x:Name="descriptionEntry" Placeholder="Descripción" VerticalOptions="FillAndExpand" />
+        <Button Text="Guardar" Clicked="SaveButton_Clicked" />
+    </StackLayout>
+</ContentPage>

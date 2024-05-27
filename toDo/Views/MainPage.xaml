@@ -5,16 +5,14 @@
              x:Name="mainPage"
              Title="Main Page"
              StyleClass="main-page">
-    <ContentPage.Content>
-        <StackLayout>
-            <ListView x:Name="taskList" ItemsSource="{Binding Tareas}" ItemSelected="OnTaskSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Text="{Binding Nombre}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button Text="Agregar Tarea" Clicked="OnAddTaskClicked" />
-        </StackLayout>
-    </ContentPage.Content>
+    <StackLayout>
+        <ListView x:Name="taskList" ItemsSource="{Binding Tareas}" ItemSelected="OnTaskSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Nombre}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Agregar Tarea" Clicked="OnAddTaskClicked" />
+    </StackLayout>
 </ContentPage>

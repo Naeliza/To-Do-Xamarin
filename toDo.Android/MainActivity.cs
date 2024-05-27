@@ -2,8 +2,8 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
-using System;
-using System.IO;
+using Xamarin.Forms;
+using toDo.Views;
 
 namespace toDo.Droid
 {
@@ -18,17 +18,20 @@ namespace toDo.Droid
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Xamarin.Forms.Forms.Init(this, savedInstanceState);
-
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "tareas.db");
-
-            LoadApplication(new App(dbPath));
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            LoadApplication(new App());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public static void Main(string[] args)
+        {
+            var app = new App();
+            Xamarin.Forms.Application.Current.MainPage = new MainPage();
         }
     }
 }

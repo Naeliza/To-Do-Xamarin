@@ -1,13 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <ProduceReferenceAssemblyInOutDir>true</ProduceReferenceAssemblyInOutDir>
+    <RootNamespace>toDo</RootNamespace>
+    <AssemblyName>toDo</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />  
+    <Compile Remove="Views\MainPage\**" />
+    <Compile Remove="Views\TaskDetailPage\**" />
+    <EmbeddedResource Remove="Views\MainPage\**" />
+    <EmbeddedResource Remove="Views\TaskDetailPage\**" />
+    <None Remove="Views\MainPage\**" />
+    <None Remove="Views\TaskDetailPage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Paquetes de NuGet -->
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
+    <PackageReference Include="SQLite-net-pcl" Version="1.8.116" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
+
 </Project>

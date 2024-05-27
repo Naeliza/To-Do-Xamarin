@@ -1,10 +1,8 @@
-﻿// MainPage.xaml.cs
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using toDo.Models;
 using toDo.Services;
-using System.Threading;
 
 namespace toDo.Views
 {
@@ -16,7 +14,9 @@ namespace toDo.Views
         public MainPage()
         {
             InitializeComponent();
-            database = new TareaDatabase("tareas.db");
+            var fileHelper = DependencyService.Get<IFileHelper>();
+            string dbPath = fileHelper.GetLocalFilePath("tareas.db");
+            database = new TareaDatabase(dbPath);
             LoadTareas();
         }
 
@@ -24,7 +24,7 @@ namespace toDo.Views
         {
             var tareasList = await database.GetTareasAsync();
             tareas = new ObservableCollection<Tarea>(tareasList);
-            mainPage.BindingContext = this;
+            taskList.ItemsSource = tareas;
         }
 
         private async void OnTaskSelected(object sender, SelectedItemChangedEventArgs e)
@@ -32,14 +32,22 @@ namespace toDo.Views
             if (e.SelectedItem != null)
             {
                 var tarea = e.SelectedItem as Tarea;
-                await Navigation.PushAsync(new TaskDetailPage(tarea));
+                await Navigation.PushAsync(new TaskDetailPage(tarea, database, UpdateTaskList));
             }
         }
+
         private async void OnAddTaskClicked(object sender, EventArgs e)
         {
             Tarea nuevaTarea = new Tarea();
-            await Navigation.PushAsync(new TaskDetailPage(nuevaTarea));
+            await Navigation.PushAsync(new TaskDetailPage(nuevaTarea, database, UpdateTaskList));
         }
 
+        private async void UpdateTaskList()
+        {
+            var tareasList = await database.GetTareasAsync();
+            tareas = new ObservableCollection<Tarea>(tareasList);
+            taskList.ItemsSource = tareas;
+        }
     }
+
 }

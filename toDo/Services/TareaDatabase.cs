@@ -1,45 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using SQLite;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using SQLite;
 using toDo.Models;
 
 namespace toDo.Services
 {
     public class TareaDatabase
     {
-        readonly SQLiteAsyncConnection _database;
+        readonly SQLiteAsyncConnection database;
 
         public TareaDatabase(string dbPath)
         {
-            _database = new SQLiteAsyncConnection(dbPath);
-            _database.CreateTableAsync<Tarea>().Wait();
+            try
+            {
+                database = new SQLiteAsyncConnection(dbPath);
+                database.CreateTableAsync<Tarea>().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al inicializar la base de datos: {ex}");
+                throw;
+            }
         }
 
         public Task<List<Tarea>> GetTareasAsync()
         {
-            return _database.Table<Tarea>().ToListAsync();
-        }
-
-        public Task<Tarea> GetTareaAsync(int id)
-        {
-            return _database.Table<Tarea>().Where(i => i.Id == id).FirstOrDefaultAsync();
+            return database.Table<Tarea>().ToListAsync();
         }
 
         public Task<int> SaveTareaAsync(Tarea tarea)
         {
             if (tarea.Id != 0)
             {
-                return _database.UpdateAsync(tarea);
+                return database.UpdateAsync(tarea);
             }
             else
             {
-                return _database.InsertAsync(tarea);
+                return database.InsertAsync(tarea);
             }
         }
 
         public Task<int> DeleteTareaAsync(Tarea tarea)
         {
-            return _database.DeleteAsync(tarea);
+            return database.DeleteAsync(tarea);
         }
     }
 }

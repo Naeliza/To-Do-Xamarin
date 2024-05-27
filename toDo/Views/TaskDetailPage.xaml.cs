@@ -1,7 +1,7 @@
 ﻿using System;
-using Xamarin.Forms;
 using toDo.Models;
 using toDo.Services;
+using Xamarin.Forms;
 
 namespace toDo.Views
 {
@@ -9,12 +9,14 @@ namespace toDo.Views
     {
         private Tarea tarea;
         private TareaDatabase database;
+        private Action updateAction;
 
-        public TaskDetailPage(Tarea tarea)
+        public TaskDetailPage(Tarea tarea, TareaDatabase database, Action updateAction)
         {
             InitializeComponent();
             this.tarea = tarea;
-            database = new TareaDatabase("tareas.db");
+            this.database = database;
+            this.updateAction = updateAction;
 
             if (tarea != null)
             {
@@ -37,7 +39,18 @@ namespace toDo.Views
                 await database.SaveTareaAsync(tarea);
             }
 
+            updateAction();
             await Navigation.PopAsync();
+        }
+
+        private async void DeleteButton_Clicked(object sender, EventArgs e)
+        {
+            if (tarea != null)
+            {
+                await database.DeleteTareaAsync(tarea);
+                updateAction();
+                await Navigation.PopAsync();
+            }
         }
     }
 }

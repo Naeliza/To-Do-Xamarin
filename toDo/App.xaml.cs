@@ -12,7 +12,9 @@ namespace toDo
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new MainPage());
+
+            DependencyService.Register<MockDataStore>();
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()
